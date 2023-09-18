@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Wall
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Walls\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=width\ height\ color\ name
+comment1.target=Wall(int,\ int,\ greenfoot.Color,\ java.lang.String)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=java.lang.String\ getName()
+comment4.params=
+comment4.target=int\ getWallWidth()
+comment5.params=
+comment5.target=int\ getWallHeight()
+numComments=6

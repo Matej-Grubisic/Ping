@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Paddle
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Padlle\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=width\ height\ color\ name
+comment1.target=Paddle(int,\ int,\ greenfoot.Color,\ java.lang.String)
+comment2.params=width\ height\ color\ name\ image
+comment2.target=Paddle(int,\ int,\ greenfoot.Color,\ java.lang.String,\ greenfoot.GreenfootImage)
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=java.lang.String\ getName()
+comment5.params=actor
+comment5.target=boolean\ isTouchingWalls(greenfoot.Actor)
+comment6.params=width
+comment6.target=void\ setWidth(int)
+comment7.params=
+comment7.target=int\ getWidth()
+comment8.params=
+comment8.target=int\ getInitialWidth()
+comment9.params=
+comment9.target=greenfoot.GreenfootImage\ getImage()
+numComments=10
