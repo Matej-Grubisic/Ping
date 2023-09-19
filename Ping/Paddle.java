@@ -50,7 +50,5 @@ public class Paddle extends Actor
     public  int getInitialWidth(){
     return this.initialWidth;
     }
-    public GreenfootImage getImage(){
-        return this.image;
-    }
+ 
 }
