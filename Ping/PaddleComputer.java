@@ -12,18 +12,21 @@ public class PaddleComputer extends Paddle
      * Act - do whatever the PaddleComputer wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private int DX =4;  
+    private int DX =5;  
     private int sizeSpeed=(DX*2);
-    public PaddleComputer(int width,int height,Color color,String name, GreenfootImage image){
-        super(width,height,color,name, image);
-        
+    public PaddleComputer(int width,int height,Color color,String name,GreenfootImage image){
+        super(width,height,color,name,image);
+         this.setImage(image);
     }
     public void act()
     {
-        if(getX()>=599){
+        
+        if(getX()>=((getWorld().getWidth())-1)){
             ((Ping)getWorld()).setComputerAtEdge(true);
        if(this.getWidth()<=sizeSpeed){
-            int y= randomPosition(50,150);
+             int worldHeight =getWorld().getHeight();
+            int quarterWorld=worldHeight/4;
+            int y= randomPosition(quarterWorld,worldHeight-quarterWorld);
            ((Ping)getWorld()).setComputerAtEdge(false);
            setLocation(0,y);
         }
@@ -49,7 +52,5 @@ public class PaddleComputer extends Paddle
      public int getSizeSpeed(){
     return this.sizeSpeed; 
     }
-    public GreenfootImage getPimage(){
-        return this.getImage();
-    }
+   
 }
