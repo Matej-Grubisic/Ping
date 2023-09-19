@@ -13,6 +13,4 @@ comment5.params=speed
 comment5.target=void\ setSizeSpeed(int)
 comment6.params=
 comment6.target=int\ getSizeSpeed()
-comment7.params=
-comment7.target=greenfoot.GreenfootImage\ getPimage()
-numComments=8
+numComments=7

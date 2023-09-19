@@ -12,28 +12,42 @@ public class PaddleComputer extends Paddle
      * Act - do whatever the PaddleComputer wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private int DX =4;  
+    private int DX =5;  
     private int sizeSpeed=(DX*2);
-    public PaddleComputer(int width,int height,Color color,String name, GreenfootImage image){
-        super(width,height,color,name, image);
-        
+    private int minimum ; 
+    private int maximum ; 
+    private  boolean initiateSize =true;
+    public PaddleComputer(int width,int height,Color color,String name,GreenfootImage image){
+        super(width,height,color,name,image);
+         this.setImage(image);
+         
     }
     public void act()
     {
-        if(getX()>=599){
+        if(initiateSize){
+               int minimum = ((Ping)getWorld()).getWidth()-(getWorld().getWidth()-50);
+            int maximum = ((Ping)getWorld()).getWidth()-50;
+            this.minimum=minimum;
+            this.maximum=maximum;
+        }
+        if(getX()>=((getWorld().getWidth())-1)){
             ((Ping)getWorld()).setComputerAtEdge(true);
        if(this.getWidth()<=sizeSpeed){
-            int y= randomPosition(50,150);
+            int worldHeight =getWorld().getHeight();
+            int quarterWorld=worldHeight/4;
+            int y= randomPosition(quarterWorld,worldHeight-quarterWorld);
+            int resizePaddle = randomPosition(this.minimum,this.maximum);
+            this.setCurrentWidth(resizePaddle);
            ((Ping)getWorld()).setComputerAtEdge(false);
            setLocation(0,y);
         }
                     
         }
-        if(this.getWidth()>=this.getInitialWidth()){
+        if(this.getWidth()>=this.getCurrentWidth()){
         setLocation(getX()+DX,getY());
         }
          
-        
+        this.initiateSize=false;
     }
     
     public void setX(int speed){
@@ -49,7 +63,7 @@ public class PaddleComputer extends Paddle
      public int getSizeSpeed(){
     return this.sizeSpeed; 
     }
-    public GreenfootImage getPimage(){
-        return this.getImage();
-    }
+
+ 
+   
 }

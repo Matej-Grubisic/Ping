@@ -15,9 +15,10 @@ public class Paddle extends Actor
     private String name;
     private Color color;
     private int width;
-    private final int initialWidth=200;
+    private  int currentWidth=200;
     private int height;
     private GreenfootImage image;
+    
     public Paddle (int width,int height,Color color,String name){
         this.name=name;
         this.color=color;
@@ -47,10 +48,11 @@ public class Paddle extends Actor
     public int getWidth(){
     return this.width;
     }
-    public  int getInitialWidth(){
-    return this.initialWidth;
+    public  int getCurrentWidth(){
+    return this.currentWidth;
     }
-    public GreenfootImage getImage(){
-        return this.image;
+    public void setCurrentWidth(int width){
+    this.currentWidth=width;
     }
+ 
 }

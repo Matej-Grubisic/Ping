@@ -1,5 +1,4 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import greenfoot.GreenfootImage;
 
 /**
  * Write a description of class MyWorld here.
@@ -26,26 +25,33 @@ public class Ping extends World
     private Label levelLabel;
     private Label levelCounter;
     private boolean changeLevel;
-    public Ping()
+    private int defaultWidth;
+    private int defaultHeight;
+    private int defaultCellSize; 
+    
+    
+    public Ping(int width,int height,int pixelSize)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 700, 1); 
-        
+        super(width, height, 1); 
         Paddle paddlePlayer =  new PaddlePlayer(200,10,Color.BLACK,"Player","left","right"); 
-        GreenfootImage image =  new GreenfootImage("stickpaddlenobg2.png");
-        //image.setColor(Color.BLACK);
-        //image.fillRect(0,0,200,10);
+        GreenfootImage image =  new GreenfootImage(200,10);
+        image.setColor(Color.BLACK);
+        image.fillRect(0,0,200,10);
         paddlePlayer.setImage(image);
-        addObject(paddlePlayer,600/2,700-30);
+        addObject(paddlePlayer,getWidth()/2,getHeight()-30);
         this.paddlePlayer=paddlePlayer;
         
-        GreenfootImage imagestick = new GreenfootImage("stickpaddlenobg2.png");
-        imagestick.scale(1, 33);
-        PaddleComputer paddleComputer =  new PaddleComputer (0,10,Color.BLACK,"Computer", imagestick);  
-        addObject(paddleComputer,0,randomPosition(50,150));
-        this.paddleComputer=paddleComputer;        
-        
-        
+          GreenfootImage imageC =  new GreenfootImage(1,20);
+       // GreenfootImage stick = new GreenfootImage("stick.jpeg"); 
+        image.setColor(Color.BLACK);
+        image.fillRect(0,0,0,10);
+        //stick.scale(newWidth,20);
+       
+        PaddleComputer paddleComputer =  new PaddleComputer (0,10,Color.BLACK,"Computer",imageC); 
+        int quarterWorld=getHeight()/4;
+        addObject(paddleComputer,0,randomPosition(quarterWorld,getHeight()-quarterWorld));
+        this.paddleComputer=paddleComputer;
         
         GreenfootSound sound=  new GreenfootSound("audiomass-output.wav");
         
@@ -54,20 +60,20 @@ public class Ping extends World
         this.ball.turn(90);
         addObject(ball,300,100);
         
-        Wall upperWall = new Wall(600,10,Color.GREEN,"upper");
-        addObject(upperWall,600/2,5);
+        Wall upperWall = new Wall(getWidth(),10,Color.CYAN,"upper");
+        addObject(upperWall,getWidth()/2,5);
         this.upperWall=upperWall;
         
-        Wall lowerWall = new Wall(600,10,Color.GREEN,"lower");
-       addObject(lowerWall,600/2,695);
+        Wall lowerWall = new Wall(getWidth(),10,Color.CYAN,"lower");
+       addObject(lowerWall,getWidth()/2,(getHeight()-5));
        this.lowerWall=lowerWall;
        
-       Wall rightWall = new Wall(10,800,Color.GREEN,"right");
-       addObject(rightWall,595,300);
+       Wall rightWall = new Wall(10,(getHeight()-20),Color.CYAN,"right");
+       addObject(rightWall,(getWidth()-5),(getHeight()/2));
        this.rightWall=rightWall;
        
-       Wall leftWall = new Wall(10,800,Color.GREEN,"left");
-       addObject(leftWall,5,300);
+       Wall leftWall = new Wall(10,(getHeight()-20),Color.CYAN,"left");
+       addObject(leftWall,5,getHeight()/2);
        this.leftWall=leftWall;
        
     
@@ -80,25 +86,28 @@ public class Ping extends World
        setPaintOrder(Ball.class,PaddleComputer.class);
     }
     public void act(){
-       if(isComputerAtEdge){ 
+       
+       
+       if(isComputerAtEdge){    
         int newWidth = paddleComputer.getWidth()-paddleComputer.getSizeSpeed();
-        
-        //image.setColor(Color.BLACK);
-        //image.fillRect(0,0,newWidth,10);
-        paddleComputer.getPimage().scale(newWidth, 33);
+        GreenfootImage image =  new GreenfootImage(newWidth,20);
+        image.setColor(Color.BLACK);
+        image.fillRect(0,0,newWidth,10);
+        paddleComputer.setImage(image);
         paddleComputer.setWidth(newWidth);
-        }else if(paddleComputer.getX()<=0 && paddleComputer.getWidth()<=paddleComputer.getInitialWidth()){    
+        }else if(paddleComputer.getX()<=0 && paddleComputer.getWidth()<=paddleComputer.getCurrentWidth()){    
         int newWidth = paddleComputer.getWidth()+paddleComputer.getSizeSpeed();
-        //GreenfootImage imagestick = new GreenfootImage("stickpaddlenobg2.png");
-        //image.setColor(Color.BLACK);
-        //image.fillRect(0,0,newWidth,10);
-        paddleComputer.getPimage().scale(newWidth,33);
-        //paddleComputer.setImage(imagestick);
+        GreenfootImage image =  new GreenfootImage(newWidth,20);
+        image.setColor(Color.BLACK);
+        image.fillRect(0,0,newWidth,10);
+        //GreenfootImage stick = new GreenfootImage("stick.jpeg");
+       // stick.scale(newWidth,20);
+        paddleComputer.setImage(image);
         paddleComputer.setWidth(newWidth);
         }
        
        if(levelCount==8){
-        Greenfoot.setWorld(new Winner());
+        Greenfoot.setWorld(new Winner(getWidth(),getHeight(),getCellSize()));
         } 
         
        if(changeLevel){
@@ -180,7 +189,6 @@ public class Ping extends World
     public void setChangeLevel(boolean changeLevel) {
         this.changeLevel = changeLevel;
     }
-    
 
     
 }
