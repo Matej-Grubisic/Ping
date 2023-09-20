@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=AIPaddle
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ AIPaddle\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=width\ height\ color\ name
+comment1.target=AIPaddle(int,\ int,\ greenfoot.Color,\ java.lang.String)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=value
+comment3.target=void\ setReturnedBall(boolean)
+comment4.params=
+comment4.target=boolean\ getReturnedBall()
+numComments=5

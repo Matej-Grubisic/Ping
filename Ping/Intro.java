@@ -22,6 +22,7 @@ public class Intro extends World
     setDefaultImage();  
     setDefaultSound(); 
     setText();
+    setControls();
     }
     public void act() {
       counter++;
@@ -81,5 +82,20 @@ public class Intro extends World
         addObject(startL,((int)((getWidth()/2)*0.6)),((int)((getHeight()/4)*1.2)));
                Label pressL= new Label(press,30);
         addObject(pressL,(int)((getWidth()/2)),((int)((getHeight()/4)*1.4)));
+    }
+    private void setControls(){
+        String controlls="Controlls";
+        String left="Left <-";
+        String right =" -> Right";
+    Label label= new Label(controlls,30);
+    addObject(label,(int)(getWidth()*0.75),((int)((getHeight()*0.45))));
+    GreenfootImage image  = new GreenfootImage("left.png");
+    image.scale(10,10);
+    Label leftL = new Label(left,30);
+    addObject(leftL,(int)(getWidth()*0.65),((int)((getHeight()*0.50))));
+    Label rightL = new Label(right,30);
+    addObject(rightL,(int)(getWidth()*0.85),((int)((getHeight()*0.50))));
+    
+    
     }
 }

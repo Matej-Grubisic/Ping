@@ -54,5 +54,8 @@ public class Paddle extends Actor
     public void setCurrentWidth(int width){
     this.currentWidth=width;
     }
+    public int getHeight(){
+    return this.height;
+    }
  
 }

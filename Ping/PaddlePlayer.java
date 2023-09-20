@@ -26,14 +26,10 @@ public class PaddlePlayer extends Paddle
          Wall right = ((Ping)getWorld()).getRightWall();
          if (Greenfoot.isKeyDown(control1) && isTouchingWalls(left)!=true) {
            move(-this.speed);
-          
-          
         }else{
             move(0);}
          if (Greenfoot.isKeyDown(control2) && isTouchingWalls(right)!=true) {
-           move(this.speed);
-       
-           
+           move(this.speed);  
         }else{
         move(0);
          } 
