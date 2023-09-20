@@ -1,33 +1,36 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Winner here.
+ * Write a description of class Equality here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Winner extends World
+public class Equality extends World
 {
 
     /**
-     * Constructor for objects of class Winner.
+     * Constructor for objects of class Equality.
      * 
      */
+   private int counter;
     private GreenfootSound sound;
     private boolean playSound=true;
-    private int counter;
-    public Winner(int width,int height, int cellSize)
+    public Equality(int width, int height,int cellSize)
     {    
-        super(width,height, cellSize); 
-        GreenfootSound sound=  new GreenfootSound("winner.mp3");
-        GreenfootImage background = new GreenfootImage("winner1.png");
+        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        super(width, height, cellSize); 
+        GreenfootSound sound=  new GreenfootSound("equal.mp3");
+        GreenfootImage background = new GreenfootImage("equal.png");
         background.scale(width,height);
+        this.sound=sound; 
         setBackground(background);
-        Label winner = new Label ("YOU WON",50);
-        addObject(winner,width/2,(int)(height*0.15));
-        this.sound=sound;
+         Label equal= new Label ("DRAW",50);
+        addObject(equal,width/2,(int)(height*0.15));
+      
     }
-     public void act() {
+    
+      public void act() {
       counter++;
       if(playSound){
         sound.play();

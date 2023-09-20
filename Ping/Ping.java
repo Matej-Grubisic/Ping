@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Write a description of class MyWorld here.
@@ -8,7 +10,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Ping extends World
 {
-
+  
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -35,13 +37,23 @@ public class Ping extends World
     private Label scoreCompVal;
     private boolean increaseScoreComputer=false;
     private boolean increaseScorePlayer=false;
+    private List<Powerup> powerups = new ArrayList<>();
+    private int spawnPowerUps;
     public Ping(int width,int height,int pixelSize)
     {    
         super(width, height, 1);
-        
+        Grow grow =  new Grow((int)(width*0.2),(int)(height*0.030));
+        //addObject(grow,randomPosition((int)(width*0.10),(int)(width*0.80)),(height-((int)(height*1.1))));
+        Shrink shrink = new Shrink((int)(width*0.2),(int)(height*0.030));
+        //addObject(shrink,randomPosition((int)(width*0.10),(int)(width*0.80)),(height-((int)(height*1.1))));
+        Speed speed = new Speed((int)(width*0.2),(int)(height*0.030)); 
+        //addObject(speed,randomPosition((int)(width*0.10),(int)(width*0.80)),(height-((int)(height*1.1))));
+         powerups.add(grow);
+         powerups.add(shrink);
+         powerups.add(speed);
+         
         // adds player to the screen
-        Paddle paddlePlayer =  new PaddlePlayer(100,10,Color.BLACK,"Player","left","right"); 
-        
+        Paddle paddlePlayer =  new PaddlePlayer(100,10,Color.BLACK,"Player","left","right");
         GreenfootImage image =  new GreenfootImage(paddlePlayer.getWidth(),paddlePlayer.getHeight());
         image.setColor(Color.BLACK);
         image.fillRect(0,0,paddlePlayer.getWidth(),paddlePlayer.getHeight());
@@ -62,11 +74,11 @@ public class Ping extends World
         
         
         // adds ai paddle to the world
-        AIPaddle paddleAI= new AIPaddle(20,10,Color.BLACK,"aipaddle");
+        AIPaddle paddleAI= new AIPaddle(100,10,Color.BLACK,"aipaddle");
         GreenfootImage imageAI =  new GreenfootImage(paddleAI.getWidth(),paddleAI.getHeight());
-        image.setColor(Color.BLACK);
-        image.fillRect(0,0,paddleAI.getWidth(),paddleAI.getHeight());
-        paddleAI.setImage(image);
+        imageAI.setColor(Color.BLACK);
+        imageAI.fillRect(0,0,paddleAI.getWidth(),paddleAI.getHeight());
+        paddleAI.setImage(imageAI);
         this.aiPaddle=paddleAI;
         addObject(paddleAI,getWidth()/2,30);
         
@@ -108,11 +120,11 @@ public class Ping extends World
        // Add score labels
        Label scoreComp =  new Label("Score:",20);
        addObject(scoreComp,(int)(getWidth()*0.10),((int)(getHeight()*0.25)));
-       Label scoreCompVal = new Label("",20);
+       Label scoreCompVal = new Label("0",20);
        this.scoreCompVal=scoreCompVal;
        addObject(scoreCompVal,(int)(getWidth()*0.20),((int)(getHeight()*0.25)));
        Label scorePlay = new Label("Score: ",20);
-       Label scorePlayVal =  new Label("",20);
+       Label scorePlayVal =  new Label("0",20);
        this.scorePlayVal=scorePlayVal;
        
        addObject(scorePlay,(int)(getWidth()*0.10),((int)(getHeight()*0.75)));
@@ -122,7 +134,7 @@ public class Ping extends World
        setPaintOrder(Ball.class,PaddleComputer.class,AIPaddle.class);
     }
     public void act(){
-       
+       spawnPowerUps+=1;
        
        if(isComputerAtEdge){    
         int newWidth = paddleComputer.getWidth()-paddleComputer.getSizeSpeed();
@@ -152,25 +164,24 @@ public class Ping extends World
         this.increaseScorePlayer=false;
         }
         
-       if(levelCount==8 && scorePlayer>0 ){
+       if(levelCount == 8){
            if(scorePlayer>scoreComputer){
             Greenfoot.setWorld(new Winner(getWidth(),getHeight(),getCellSize()));
             }else if(scorePlayer<scoreComputer) {
             Greenfoot.setWorld(new Loser(getWidth(),getHeight(),getCellSize()) );
-            }else {
-            
+            }else if(scorePlayer==scoreComputer){
+             Greenfoot.setWorld(new Winner(getWidth(),getHeight(),getCellSize()));
             }
         } 
-       if (levelCount==8 && scorePlayer==0){
-         Greenfoot.setWorld(new Winner(getWidth(),getHeight(),getCellSize()));
-        } 
-        
-        
        if(changeLevel){
         this.levelCount+=1;
         this.levelCounter.setValue(this.levelCount);
         this.changeLevel=false;
         } 
+        if(spawnPowerUps%480==0){
+        int retrievePos = randomPosition(1,4)-1;
+        addObject(powerups.get(retrievePos),randomPosition((int)(getWidth()*0.10),(int)(getWidth()*0.80)),(getHeight()-((int)(getHeight()*1.1))));
+        }
     }
     
     

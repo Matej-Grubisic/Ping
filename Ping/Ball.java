@@ -128,9 +128,7 @@
                lastTouchedWall=null;
                 paddleAi.setReturnedBall(false);
                 ((Ping)getWorld()).setPlayerScore(true);
-              int middleX =(int)(((Ping)getWorld()).getWidth()/2);
-              int middleY = (int)(((Ping)getWorld()).getHeight()/2);
-              setLocation(middleX,middleY);
+                reSpawnBall();
               DX=0;
               DY=(DY*(-1));
             }
@@ -150,9 +148,7 @@
             if(isTouchingWalls(lower)){
               mySound.play();
               ((Ping)getWorld()).setComputerScore(true);
-              int middleX =(int)(((Ping)getWorld()).getWidth()/2);
-              int middleY = (int)(((Ping)getWorld()).getHeight()/2);
-              setLocation(middleX,middleY);
+           reSpawnBall();
               DX=0;
             }
             setLocation(getX()+DX,getY()+DY);
@@ -189,28 +185,34 @@
         
         
         private void changeDirectionRight(int pos,int paddleSize){
-         
-              if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
+              
+            if(pos>=paddleSize&&pos<=(paddleSize*0.25)){
                 DX=this.speed+1;
                 }
-              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
+         
+              if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
                 DX=this.speed+2;
                 }
-                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
+              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
                 DX=this.speed+3;
+                }
+                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
+                DX=this.speed+4;
                 }
         }
         
         private void changeDirectionLeft(int pos,int paddleSize){
-     
-             if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
+     if(pos>=paddleSize&&pos<=(paddleSize*0.25)){
                 DX=(this.speed+1)*(-1);
                 }
-              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
+             if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
                 DX=(this.speed+2)*(-1);
                 }
-                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
+              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
                 DX=(this.speed+3)*(-1);
+                }
+                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
+                DX=(this.speed+4)*(-1);
                 }
         }
         
@@ -230,6 +232,11 @@
                   if(pos>=dividers[2]&&pos<=dividers[3]){
                 DX=this.speed;
                 }
+        }
+        private void reSpawnBall(){
+              int middleX =(int)(((Ping)getWorld()).getWidth()/2);
+              int middleY = (int)(((Ping)getWorld()).getHeight()/3);
+              setLocation(middleX,middleY);
         }
         
     }

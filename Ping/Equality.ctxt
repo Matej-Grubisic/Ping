@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Equality
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Equality\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=width\ height\ cellSize
+comment1.target=Equality(int,\ int,\ int)
+comment2.params=
+comment2.target=void\ act()
+comment3.params=string
+comment3.target=boolean\ checkForKeyPress(java.lang.String)
+numComments=4
