@@ -25,6 +25,7 @@
         private int paddleCount;
         private  final int[] dividers= {25,50,75,100};
         private  String lastTouchedWall=null;
+        
         public Ball(int width,int height,Color color,GreenfootSound sound) {
             this.color=color;
             this.height=height;
@@ -45,10 +46,13 @@
              Wall lower = ((Ping)getWorld()).getLowerWall();
              Paddle paddlePlayer = ((Ping)getWorld()).getPaddlePlayer();
              Paddle paddleComputer = ((Ping)getWorld()).getPaddleComputer();
+             AIPaddle paddleAi = ((Ping)getWorld()).getAiPaddle(); 
              
+           
        
             if(isTouchingPaddle(paddlePlayer)){
                 paddleCount+=1;
+                paddleAi.setReturnedBall(true);
                 if(paddleCount%10==0){
                  this.speed+=1;
                  DX=this.speed;
@@ -64,33 +68,30 @@
 
               if(lastTouchedWall!=null){   
                //if ball comes from the right and hits the right part off the paddle,bounce to left
-               //if is touhing the left tip off the paddle will change direction to right
-              if((lastTouchedWall=="right") && (ballX>paddlePos)){
+              if((lastTouchedWall=="right") && (ballX<paddlePos)){
+               int calculatePos=paddlePos-ballX;
+               changeDirectionLeft(calculatePos,paddlePlayer.getWidth());
+                }else if((lastTouchedWall=="right") && (ballX>paddlePos)){ 
                int calculatePos=ballX-paddlePos;
-               changeDirectionLeft(calculatePos);
-                }else if((lastTouchedWall=="right") && (ballX<paddlePos)){
-                  int calculatePos=paddlePos-ballX;
-               reverseDirectionRight(calculatePos);
-                }  
-                
+               changeDirectionLeft(calculatePos,paddlePlayer.getWidth());        
+            }
                 //if ball comes from the left and hits left side off the paddle,bounce to right
-                //if is touhing the right tip off the paddle will change direction to left
                   if((lastTouchedWall=="left") && (ballX<paddlePos)){
                int calculatePos=paddlePos-ballX;
-               changeDirectionRight(calculatePos);
-                }else if((lastTouchedWall=="left")&&ballX>paddlePos){
-                int calculatePos=paddlePos-ballX;
-               reverseDirectionLeft(calculatePos);
+               changeDirectionRight(calculatePos,paddlePlayer.getWidth());
+                }else if((lastTouchedWall=="left") && (ballX>paddlePos)){
+               int calculatePos=ballX-paddlePos;
+               changeDirectionRight(calculatePos,paddlePlayer.getWidth()); 
                 }
                 
             }else {
                if(ballX>paddlePos){
               int calculatePos=ballX-paddlePos;
-               changeDirectionRight(calculatePos);
+               changeDirectionRight(calculatePos,paddlePlayer.getWidth());
             }
                      if(ballX<paddlePos){
                int calculatePos=paddlePos-ballX;
-                changeDirectionLeft(calculatePos);
+                changeDirectionLeft(calculatePos,paddlePlayer.getWidth());
                }
             }
         
@@ -100,6 +101,20 @@
              DY=speed*(-1);
              
             }
+               if(isTouchingPaddle(paddleAi)){
+                mySound.play();
+                paddleAi.setReturnedBall(false);
+                DY=+speed;
+                lastTouchedWall=null;
+                }
+            
+            //controls the movement off the ball if hits the computer lower part off the paddle
+            if(isTouchingPaddle(paddleComputer)&&DY<0){
+              mySound.play();
+             DY=+speed;
+             lastTouchedWall=null;
+             paddleAi.setReturnedBall(false);
+        }
             
             //controls the movement off the ball if hits the computer lower part off the paddle
             if(isTouchingPaddle(paddleComputer)&&DY<0){
@@ -110,7 +125,14 @@
             // controls the direction off the ball if is hitting the upper wall
             if(isTouchingWalls(upper)){
                  mySound.play();
-               DY=(DY*(-1));
+               lastTouchedWall=null;
+                paddleAi.setReturnedBall(false);
+                ((Ping)getWorld()).setPlayerScore(true);
+              int middleX =(int)(((Ping)getWorld()).getWidth()/2);
+              int middleY = (int)(((Ping)getWorld()).getHeight()/2);
+              setLocation(middleX,middleY);
+              DX=0;
+              DY=(DY*(-1));
             }
             // controlss the direction off the ball if is hitting the left wall
             if(isTouchingWalls(left)){
@@ -126,8 +148,12 @@
             }
             // controlss the direction off the ball if is hitting the lower wall
             if(isTouchingWalls(lower)){
-                Loser loser= new Loser(getWorld().getWidth(),getWorld().getHeight(),getWorld().getCellSize());
-              Greenfoot.setWorld(loser);
+              mySound.play();
+              ((Ping)getWorld()).setComputerScore(true);
+              int middleX =(int)(((Ping)getWorld()).getWidth()/2);
+              int middleY = (int)(((Ping)getWorld()).getHeight()/2);
+              setLocation(middleX,middleY);
+              DX=0;
             }
             setLocation(getX()+DX,getY()+DY);
         }
@@ -162,28 +188,28 @@
         }
         
         
-        private void changeDirectionRight(int pos){
-            
-              if(pos>=dividers[0]&&pos<=dividers[1]){
+        private void changeDirectionRight(int pos,int paddleSize){
+         
+              if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
                 DX=this.speed+1;
                 }
-              if(pos>=dividers[1]&&pos<=dividers[2]){
+              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
                 DX=this.speed+2;
                 }
-                  if(pos>=dividers[2]&&pos<=dividers[3]){
+                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
                 DX=this.speed+3;
                 }
         }
         
-        private void changeDirectionLeft(int pos){
-         
-              if(pos>=dividers[0]&&pos<=dividers[1]){
+        private void changeDirectionLeft(int pos,int paddleSize){
+     
+             if(pos>=(paddleSize*0.25)&&pos<=(paddleSize*0.50)){
                 DX=(this.speed+1)*(-1);
                 }
-              if(pos>=dividers[1]&&pos<=dividers[2]){
+              if(pos>=(paddleSize*0.50)&&pos<=(paddleSize*0.75)){
                 DX=(this.speed+2)*(-1);
                 }
-                  if(pos>=dividers[2]&&pos<=dividers[3]){
+                  if(pos>=(paddleSize*0.75)&&pos<=paddleSize){
                 DX=(this.speed+3)*(-1);
                 }
         }
@@ -197,12 +223,12 @@
         }
         private void reverseDirectionLeft(int pos){
            if(pos>=dividers[2]&&pos<=dividers[3]){
-                DX=(this.speed+2)*(-1);
+                DX=(this.speed)*(-1);
                 }
         }
         private void reverseDirectionRight(int pos){
                   if(pos>=dividers[2]&&pos<=dividers[3]){
-                DX=this.speed+3;
+                DX=this.speed;
                 }
         }
         
